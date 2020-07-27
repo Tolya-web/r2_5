@@ -1,6 +1,6 @@
 export default class SwapiService {
-  // _apiBase = 'https://swapi.dev/api';
-  _apiBase = "http://localhost:3000";
+  _apiBase = "https://swapi.dev/api";
+  _baseImageUrl = "https://starwars-visualguide.com/assets/img";
 
   getResource = async (url) => {
     const res = await fetch(`${this._apiBase}${url}`);
@@ -11,9 +11,19 @@ export default class SwapiService {
     return await res.json();
   };
 
+  getPersonImage = ({ id }) => {
+    return `${this._baseImageUrl}/characters/${id}.jpg`;
+  };
+  getPlanetImage = ({ id }) => {
+    return `${this._baseImageUrl}/planets/${id}.jpg`;
+  };
+  getStarshipImage = ({ id }) => {
+    return `${this._baseImageUrl}/starships/${id}.jpg`;
+  };
+
   getAllPeople = async () => {
     const res = await this.getResource(`/people/`);
-    return res.map(this._transformPerson).slice(0, 5);
+    return res.results.map(this._transformPerson).slice(0, 5);
   };
 
   getPerson = async (id) => {
@@ -23,7 +33,7 @@ export default class SwapiService {
 
   getAllPlanets = async () => {
     const res = await this.getResource(`/planets/`);
-    return res.map(this._transformPlanet).slice(0, 5);
+    return res.results.map(this._transformPlanet).slice(0, 5);
   };
 
   getPlanet = async (id) => {
@@ -33,7 +43,7 @@ export default class SwapiService {
 
   getAllStarships = async () => {
     const res = await this.getResource(`/starships/`);
-    return res.map(this._transformStarship).slice(0, 5);
+    return res.results.map(this._transformStarship).slice(0, 5);
   };
 
   getStarship = async (id) => {
@@ -48,7 +58,7 @@ export default class SwapiService {
 
   _transformPlanet = (planet) => {
     return {
-      id: planet.id, //this._extractId(planet),
+      id: this._extractId(planet),
       name: planet.name,
       diameter: planet.diameter,
       gravity: planet.gravity,
@@ -62,7 +72,7 @@ export default class SwapiService {
 
   _transformStarship = (starship) => {
     return {
-      id: starship.id, //this._extractId(starship),
+      id: this._extractId(starship),
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,
@@ -76,7 +86,7 @@ export default class SwapiService {
 
   _transformPerson = (person) => {
     return {
-      id: person.id, //this._extractId(person),
+      id: this._extractId(person),
       name: person.name,
       gender: person.gender,
       birthYear: person.birth_year,

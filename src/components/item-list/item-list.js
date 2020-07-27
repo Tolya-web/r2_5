@@ -1,42 +1,32 @@
 import React, { Component } from "react";
 
-import SwapiService from '../../services/swapi-service';
+import SwapiService from "../../services/swapi-service";
+import { withData } from "../../hocs";
 
 import "./item-list.css";
 
-
 export default class ItemList extends Component {
-  swapiService = new SwapiService();
-
-  state = {
-    items: []
-  }
-
-  componentDidMount() {
-    this.swapiService.getAllPeople().then(data => {
-      this.setState({
-        items: data
-      })
-      console.log(this.state);
-    })
+  renderItems(arr) {
+    console.log(this.props.children);
+    return arr.map((elem) => {
+      return (
+        <li
+          className="list-group-item"
+          key={elem.id}
+          onClick={() => this.props.onSelectedItem(elem.id)}
+        >
+          {this.props.children(elem)}
+        </li>
+      );
+    });
   }
 
   render() {
-    const { items } = this.state;
-    const { onSelectedItem } = this.props;
+    const { data } = this.props;
 
-    return (
-      <ul className="item-list list-group">
-        {/* <li className="list-group-item">Luke Skywalker</li>
-        <li className="list-group-item">Darth Vader</li>
-        <li className="list-group-item">R2-D2</li> */}
-        {
-          items.map((elem) => {
-            return <li className="list-group-item" key={elem.id}
-              onClick={() => onSelectedItem(elem.id)}>{elem.name}</li>
-          })
-        }
-      </ul>
-    );
+    return <ul className="item-list list-group">{this.renderItems(data)}</ul>;
   }
 }
+
+/*const { getAllPeople, getAllPlanets } = new SwapiService();
+export default withData(ItemList, getAllPeople, getAllPlanets);*/

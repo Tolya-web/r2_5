@@ -5,15 +5,42 @@ import RandomPlanet from "../random-planet";
 import ErrorButton from "../error-button";
 import ErrorIndicator from "../error-indicator";
 //import ItemList from "../item-list/item-list";
-import PersonDetails from "../person-details/person-details";
+import {
+  PersonList,
+  PersonDetails,
+  PlanetList,
+  PlanetDetails,
+  StarshipList,
+  StarshipDetails,
+} from "../sw-components";
 
+//import PersonDetails from "../item-details/item-details";
+import SwapiService from "../../services/swapi-service";
+import Row from "../row/row";
+import ErrorBoundry from "../error-boundry/error-boundry";
+import { SwapiServiceProvider } from "../../context";
+import TestService from "../../services/test-service";
 import "./app.css";
 
+const Record = ({ item, field, label }) => {
+  return (
+    <li className="List-group-item">
+      <span className="term">{label}</span>
+      <span>{item[field]}</span>
+      {/*<span>{field}</span>*/}
+    </li>
+  );
+};
+
 export default class App extends Component {
+  swapiService = new SwapiService();
+  testService = new TestService();
+
   state = {
     showRandomPlanet: true,
     error: false,
     selectedItem: null,
+    selectedPlanet: null,
   };
 
   toggleRandomPlanet = () => {
@@ -31,6 +58,12 @@ export default class App extends Component {
     /* console.log(numb); */
   };
 
+  onSelectedPlanet = (id) => {
+    this.setState({
+      selectedPlanet: id,
+    });
+  };
+
   componentDidCatch() {
     this.setState({
       error: true,
@@ -39,35 +72,42 @@ export default class App extends Component {
 
   render() {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
+    const { getPersonImage, getPerson } = this.swapiService;
+    const { selectedItem, selectedPlanet } = this.state;
+    const peopleItem = <PersonList onSelectedItem={this.onSelectedItem} />;
+    const planetList = <PlanetList onSelectedItem={this.onSelectedPlanet} />;
+    const persoDetails = <PersonDetails selectedItem={selectedItem} />;
+    const planetDetails = <PlanetDetails selectedItem={selectedPlanet} />;
+    const starshipDetails = <StarshipDetails selectedItem={selectedItem} />;
+    const starshipList = <StarshipList onSelectedItem={this.onSelectedItem} />;
 
     if (this.state.error) {
       return <ErrorIndicator />;
     }
 
     return (
-      <div className="stardb-app">
-        <Header />
-        {planet}
+      <SwapiServiceProvider value={this.swapiService}>
+        <div className="stardb-app">
+          <Header />
+          {planet}
 
-        <div className="row mb2 button-row">
-          <button
-            className="toggle-planet btn btn-warning btn-lg"
-            onClick={this.toggleRandomPlanet}
-          >
-            Toggle Random Planet
-          </button>
-          <ErrorButton />
-        </div>
+          <div className="row mb2 button-row">
+            <button
+              className="toggle-planet btn btn-warning btn-lg"
+              onClick={this.toggleRandomPlanet}
+            >
+              Toggle Random Planet
+            </button>
+            <ErrorButton />
+          </div>
 
-        <div className="row mb2">
-          <div className="col-md-6">
-            {/*  <ItemList onSelectedItem={this.onSelectedItem} /> */}
-          </div>
-          <div className="col-md-6">
-            <PersonDetails selectedItem={this.state.selectedItem} />
-          </div>
+          <Row left={peopleItem} right={persoDetails} />
+          <Row left={planetList} right={planetDetails} />
+          <Row left={starshipList} right={starshipDetails} />
         </div>
-      </div>
+      </SwapiServiceProvider>
     );
   }
 }
+
+export { Record };
