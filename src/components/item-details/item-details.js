@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
+import PropTypes from "prop-types";
+
 import SwapiService from "../../services/swapi-service";
 import ErrorButton from "../error-button/error-button";
-import ErrorIndicator from "../error-indicator/error-indicator";
+//import ErrorIndicator from "../error-indicator/error-indicator";
 import "./item-details.css";
 
 export default class ItemDetails extends Component {
@@ -12,21 +14,6 @@ export default class ItemDetails extends Component {
     item: {},
   };
 
-  updateItem() {
-    const { selectedItem, getData, getImageUrl } = this.props;
-
-    if (!selectedItem) {
-      return;
-    }
-
-    getData(selectedItem).then((res) => {
-      this.setState({
-        item: res,
-        image: getImageUrl(res),
-      });
-    });
-  }
-
   componentDidMount() {
     this.updateItem();
   }
@@ -35,6 +22,21 @@ export default class ItemDetails extends Component {
     if (prevProps.selectedItem !== this.props.selectedItem) {
       this.updateItem();
     }
+  }
+
+  updateItem() {
+    const { selectedItem, getData, getImageUrl } = this.props;
+
+    if (!selectedItem) {
+      return;
+    }
+
+    getData(selectedItem).then((item) => {
+      this.setState({
+        item,
+        image: getImageUrl(item),
+      });
+    });
   }
 
   render() {

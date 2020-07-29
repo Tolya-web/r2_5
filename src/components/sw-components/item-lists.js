@@ -6,9 +6,12 @@ import SwapiService from "../../services/swapi-service";
 const { getAllPeople, getAllPlanets, getAllStarships } = new SwapiService();
 
 const renderName = ({ name }) => <span>{name}</span>;
+const renderNameAndGender = ({ name, gender }) => (
+  <span>{`${name} | ${gender}`}</span>
+);
 
 const PersonList = withData(
-  withChildFunction(ItemList, renderName),
+  withChildFunction(ItemList, renderNameAndGender),
   getAllPeople
 );
 

@@ -7,7 +7,6 @@ import "./item-list.css";
 
 export default class ItemList extends Component {
   renderItems(arr) {
-    console.log(this.props.children);
     return arr.map((elem) => {
       return (
         <li
