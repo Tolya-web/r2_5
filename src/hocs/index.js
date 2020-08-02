@@ -21,6 +21,7 @@ const withData = (View, getData) => {
     }
   };
 };
+
 const withChildFunction = (Wrapped, fn) => {
   return (props) => <Wrapped {...props}>{fn}</Wrapped>;
 };

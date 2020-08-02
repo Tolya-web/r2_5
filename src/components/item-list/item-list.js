@@ -19,13 +19,11 @@ export default class ItemList extends Component {
       );
     });
   }
-
   render() {
     const { data } = this.props;
-
     return <ul className="item-list list-group">{this.renderItems(data)}</ul>;
   }
 }
 
-/*const { getAllPeople, getAllPlanets } = new SwapiService();
-export default withData(ItemList, getAllPeople, getAllPlanets);*/
+/* const { getAllPeople, getAllPlanets } = new SwapiService();
+export default withData(ItemList, getAllPeople); */

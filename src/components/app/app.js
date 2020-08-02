@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import Header from "../header";
 import RandomPlanet from "../random-planet";
 import ErrorButton from "../error-button";
@@ -12,29 +11,25 @@ import {
   PersonDetails,
   PlanetList,
   PlanetDetails,
-  StarshipList,
-  StarshipDetails,
 } from "../sw-components";
-
 //import PersonDetails from "../item-details/item-details";
 import SwapiService from "../../services/swapi-service";
 import Row from "../row/row";
 import ErrorBoundry from "../error-boundry/error-boundry";
 import { SwapiServiceProvider } from "../../context";
 import TestService from "../../services/test-service";
-import PlanetsPage from "../pages/planets-page";
 import PeoplePage from "../pages/people-page";
+import PlanetsPage from "../pages/planets-page";
 import StarshipsPage from "../pages/starships-page";
 import PersonPage from "../pages/person-page";
-
 import "./app.css";
 
 const Record = ({ item, field, label }) => {
   return (
-    <li className="List-group-item">
+    <li className="list-group-item">
       <span className="term">{label}</span>
-      <span>{item[field]}</span>
-      {/*<span>{field}</span>*/}
+      {<span>{item[field]}</span>}
+      {/*  {<span>{field}</span>} */}
     </li>
   );
 };
@@ -48,7 +43,6 @@ export default class App extends Component {
     error: false,
     selectedItem: null,
     selectedPlanet: null,
-    isLoggedIn: true,
   };
 
   toggleRandomPlanet = () => {
@@ -84,10 +78,8 @@ export default class App extends Component {
     const { selectedItem, selectedPlanet } = this.state;
     const peopleItem = <PersonList onSelectedItem={this.onSelectedItem} />;
     const planetList = <PlanetList onSelectedItem={this.onSelectedPlanet} />;
-    const starshipList = <StarshipList onSelectedItem={this.onSelectedItem} />;
     const persoDetails = <PersonDetails selectedItem={selectedItem} />;
     const planetDetails = <PlanetDetails selectedItem={selectedPlanet} />;
-    const starshipDetails = <StarshipDetails selectedItem={selectedItem} />;
 
     if (this.state.error) {
       return <ErrorIndicator />;
@@ -98,11 +90,11 @@ export default class App extends Component {
         <div className="stardb-app">
           <Router>
             <Header />
-
             <Route path="/" render={() => <h1>Welcome</h1>} exact />
             <Route path="/people" component={PeoplePage} exact />
             <Route path="/planets" component={PlanetsPage} />
             <Route path="/starships" component={StarshipsPage} />
+            <Route path="/people/:id" component={PersonPage} />
           </Router>
           {planet}
 
@@ -116,9 +108,9 @@ export default class App extends Component {
             <ErrorButton />
           </div>
 
-          {/*  <Row left={peopleItem} right={persoDetails} />
-          <Row left={planetList} right={planetDetails} />
-    <Row left={starshipList} right={starshipDetails} />*/}
+          {/*     <Row left={peopleItem} right={persoDetails} />
+          <Row left={planetList} right={planetDetails} /> */}
+          {/*  <PeoplePage />*/}
         </div>
       </SwapiServiceProvider>
     );

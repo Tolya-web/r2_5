@@ -7,9 +7,11 @@ const { getAllPeople, getAllPlanets, getAllStarships } = new SwapiService();
 
 const renderName = ({ name }) => <span>{name}</span>;
 const renderNameAndGender = ({ name, gender }) => (
-  <span>{`${name} | ${gender}`}</span>
+  <span>{`${name} | ${gender}`} </span>
 );
-
+const renderNameAndModel = ({ name, model }) => (
+  <span>{`${name} | ${model}`} </span>
+);
 const PersonList = withData(
   withChildFunction(ItemList, renderNameAndGender),
   getAllPeople
@@ -21,7 +23,7 @@ const PlanetList = withData(
 );
 
 const StarshipList = withData(
-  withChildFunction(ItemList, renderName),
+  withChildFunction(ItemList, renderNameAndModel),
   getAllStarships
 );
 

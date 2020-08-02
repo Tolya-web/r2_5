@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { PersonList } from "../../sw-components/item-lists";
 import { PersonDetails } from "../../sw-components/details";
 import Row from "../../row";
-import { withRouter, Redirect } from "react-router-dom";
 
 class PeoplePage extends Component {
   state = {
     selectedItem: null,
-    isLoggedIn: false,
   };
 
   onSelectedItem = (selectedItem) => {
@@ -15,24 +13,14 @@ class PeoplePage extends Component {
   };
 
   render() {
-    const { history } = this.props;
-    if (!this.state.isLoggedIn) {
-      return <Redirect to="/" />;
-    }
-    console.log(history);
+    const { selectedItem } = this.state;
     return (
       <Row
-        left={
-          <PersonList
-            onSelectedItem={(id) => {
-              history.push(`people/${id}`);
-            }}
-          />
-        }
+        left={<PersonList onSelectedItem={this.onSelectedItem} />}
         right={<PersonDetails selectedItem={this.state.selectedItem} />}
       />
     );
   }
 }
 
-export default withRouter(PeoplePage);
+export default PeoplePage;

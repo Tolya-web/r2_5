@@ -28,6 +28,7 @@ const personDetails = ({ selectedItem, swapiService }) => (
     }}
   </SwapiServiceConsumer>
 );
+
 const PersonDetails = withService(personDetails);
 
 const PlanetDetails = ({ selectedItem }) => (
@@ -39,6 +40,7 @@ const PlanetDetails = ({ selectedItem }) => (
     <Record field="name" label="Name"></Record>
   </ItemDetails>
 );
+
 const StarshipDetails = ({ selectedItem }) => (
   <ItemDetails
     selectedItem={selectedItem}
@@ -48,4 +50,5 @@ const StarshipDetails = ({ selectedItem }) => (
     <Record field="model" label="Model"></Record>
   </ItemDetails>
 );
+
 export { PersonDetails, PlanetDetails, StarshipDetails };
