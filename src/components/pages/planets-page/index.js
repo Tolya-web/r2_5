@@ -5,19 +5,24 @@ import Row from "../../row";
 import { withRouter } from "react-router-dom";
 
 class PlanetsPage extends Component {
-  state = {
-    selectedPlanet: null,
-  };
-
   onSelectedItem = (selectedPlanet) => {
     this.setState({ selectedPlanet });
   };
 
   render() {
+    const { match, history } = this.props;
+    const { id } = match.params;
     return (
       <Row
-        left={<PlanetList onSelectedItem={this.onSelectedItem} />}
-        right={<PlanetDetails selectedItem={this.state.selectedPlanet} />}
+        left={
+          <PlanetList
+            onSelectedItem={(id) => {
+              this.onSelectedItem(id);
+              history.push(`/planets/${id}`);
+            }}
+          />
+        }
+        right={<PlanetDetails selectedItem={id} />}
       />
     );
   }

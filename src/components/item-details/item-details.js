@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import PropTypes from "prop-types";
+
 import SwapiService from "../../services/swapi-service";
 import ErrorButton from "../error-button/error-button";
 //import ErrorIndicator from "../error-indicator/error-indicator";
@@ -82,3 +84,11 @@ export default class ItemDetails extends Component {
     );
   }
 }
+/*
+ItemDetails.defaultProps = {
+  selectedItem: 4
+}*/
+
+ItemDetails.propTypes = {
+  selectedItem: PropTypes.number,
+};

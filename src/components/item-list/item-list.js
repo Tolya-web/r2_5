@@ -24,6 +24,10 @@ export default class ItemList extends Component {
     return <ul className="item-list list-group">{this.renderItems(data)}</ul>;
   }
 }
-
-/* const { getAllPeople, getAllPlanets } = new SwapiService();
-export default withData(ItemList, getAllPeople); */
+/*
+ItemList.propType = {
+  onItemSelected: PropTypes.func,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.func.isRequired,
+};
+*/

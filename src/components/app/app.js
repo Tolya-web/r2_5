@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Header from "../header";
 import RandomPlanet from "../random-planet";
 import ErrorButton from "../error-button";
@@ -43,6 +44,7 @@ export default class App extends Component {
     error: false,
     selectedItem: null,
     selectedPlanet: null,
+    isLoggedIn: false,
   };
 
   toggleRandomPlanet = () => {
@@ -90,11 +92,14 @@ export default class App extends Component {
         <div className="stardb-app">
           <Router>
             <Header />
-            <Route path="/" render={() => <h1>Welcome</h1>} exact />
-            <Route path="/people" component={PeoplePage} exact />
-            <Route path="/planets" component={PlanetsPage} />
-            <Route path="/starships" component={StarshipsPage} />
-            <Route path="/people/:id" component={PersonPage} />
+            <Switch>
+              <Route path="/" render={() => <h1>Welcome</h1>} exact />
+              <Route path="/people" component={PeoplePage} exact />
+              <Route path="/planets/:id?" component={PlanetsPage} />
+              <Route path="/starships" component={StarshipsPage} />
+              <Route path="/people/:id" component={PersonPage} />
+              <Route render={() => <h1>Page not found!</h1>} />
+            </Switch>
           </Router>
           {planet}
 

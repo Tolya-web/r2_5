@@ -2,22 +2,14 @@ import React, { Component } from "react";
 
 import { PersonDetails } from "../../sw-components/details";
 import Row from "../../row";
+import { withRouter } from "react-router-dom";
 
 class PersonPage extends Component {
-  state = {
-    selectedItem: 4,
-  };
-
-  onSelectedItem = (selectedItem) => {
-    this.setState({ selectedItem });
-  };
-
   render() {
-    const { selectedItem } = this.state;
-    return (
-      <Row right={<PersonDetails selectedItem={this.state.selectedItem} />} />
-    );
+    const { match /*location, history */ } = this.props;
+    const { id } = match.params;
+    return <PersonDetails selectedItem={Number(id)} />;
   }
 }
 
-export default PersonPage;
+export default withRouter(PersonPage);
